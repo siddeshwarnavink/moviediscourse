@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\CreateAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/login.php', function () {
-    return view('login');
-});
+Route::get('/auth/create-account.php', [CreateAccountController::class, 'view'])->name('auth.createaccount.view');
+Route::post('/auth/create-account.php', [CreateAccountController::class, 'action'])->name('auth.createaccount.action');
 
-Route::get('/create-account.php', function () {
-    return view('createaccount');
-});
+// Route::get('/auth/login.php', function () {
+//     return view('auth.createaccount');
+// });
