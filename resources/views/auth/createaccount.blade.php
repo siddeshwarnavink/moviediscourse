@@ -1,23 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create account</title>
+@extends('layouts.auth')
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <style>
-        .login-container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="login-container">
+@section('title') Create account @endsection
+@section('content')
             <h2 class="text-center">Create new account</h2>
             <form method="post" action="{{ route('auth.createaccount.action') }}">
                 <div class="form-group">
@@ -52,11 +36,4 @@
                 <button type="submit" class="btn btn-primary btn-block">Create</button>
                 <a class="btn btn-link btn-block" href="{{ route('auth.login.view') }}">Login instead</a>
             </form>
-        </div>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+@endsection
