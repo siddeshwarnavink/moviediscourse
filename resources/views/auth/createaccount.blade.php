@@ -50,7 +50,7 @@
                 </div>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <button type="submit" class="btn btn-primary btn-block">Create</button>
-                <a class="btn btn-link btn-block" href="/login.php">Login instead</a>
+                <a class="btn btn-link btn-block" href="{{ route('auth.login.view') }}">Login instead</a>
             </form>
         </div>
     </div>
