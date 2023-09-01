@@ -16,7 +16,11 @@ use App\Http\Controllers\Auth\LogoutController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
+    return redirect('/home.php');
+});
+
+Route::get('/home.php', function () {
     return view('home');
 });
 
