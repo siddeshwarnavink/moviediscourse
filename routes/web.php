@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\CreateAccountController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ Route::get('/auth/create-account.php', [CreateAccountController::class, 'view'])
 Route::post('/auth/create-account.php', [CreateAccountController::class, 'action'])->name('auth.createaccount.action');
 Route::get('/auth/login.php', [LoginController::class, 'view'])->name('auth.login.view');
 Route::post('/auth/login.php', [LoginController::class, 'action'])->name('auth.login.action');
+Route::get('/auth/logout.php', [LogoutController::class, 'action'])->name('auth.logout');

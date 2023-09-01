@@ -20,7 +20,7 @@
                     <span class="nav-link">Hi, {{ Auth::user()->name }}</span>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="/auth/logout">Logout</a>
+                    <a class="btn btn-primary" href="{{ route('auth.logout') }}">Logout</a>
                 </li>
             @endauth
         </ul>
