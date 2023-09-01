@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/login.php', function () {
+    return view('login');
+});
+
+Route::get('/create-account.php', function () {
+    return view('createaccount');
+});
