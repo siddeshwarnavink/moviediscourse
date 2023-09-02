@@ -16,6 +16,8 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::get('/posts/{postId}/comments', [CommentController::class, 'getComments'])->name('api.getComments');
+Route::patch('/posts/{postId}/comments/{commentId}', [CommentController::class, 'updateComments'])->name('api.updateComments');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

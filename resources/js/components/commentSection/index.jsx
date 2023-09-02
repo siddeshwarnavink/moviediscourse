@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import axios from 'axios';
 
 import Comment from './comment';
 import CommentEditor from './commentEditor';
@@ -21,7 +22,10 @@ function CommentSection() {
         }
     }
 
-    const updateComment = (id, newCommentText) => {
+    const updateComment = async (id, newCommentText) => {
+        await axios.patch(`/api/posts/${window.MOVIE.id}/comments/${id}`, {
+            commentText: newCommentText
+        });
         const updateRecursive = (comments) => {
             return comments.map(comment => {
                 if (comment.id === id) {
@@ -40,7 +44,6 @@ function CommentSection() {
                 return comment;
             });
         };
-
         const newComments = updateRecursive(comments);
         setComments(newComments);
     };

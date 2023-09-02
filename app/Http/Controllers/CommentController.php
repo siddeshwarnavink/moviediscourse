@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Movie;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
@@ -45,6 +46,17 @@ class CommentController extends Controller
             return response()->json($comments);
         } else {
             return response()->json(['message' => 'Movie not found'], 404);
+        }
+    }
+
+    public function updateComments(CommentRequest $request, $movieId, $commentId) {
+        if(Comment::where('id', $commentId)->exists()) {
+            Comment::where('id', $commentId)->update([
+                'commentText' => $request->commentText,   
+            ]);
+            return $this->getNestedComments(Comment::where('id', $commentId)->first());
+        } else {
+            return response()->json(['message' => 'Comment not found'], 404);
         }
     }
 }
