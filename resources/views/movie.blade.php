@@ -3,6 +3,8 @@
 @section('title') {{ $movie->name }} @endsection
 @section('head')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+@viteReactRefresh
+@vite('resources/js/components/commentSection/index.jsx')
 <style>
     .movie-title {
         font-size: 1.7em;
@@ -157,39 +159,6 @@
     @endforeach
 </div>
 <p class="description">{{ $movie->short_description }}</p>
-    <!-- Comments -->
-    <h5 class="my-2">Reviews</h5>
-    <ul class="comment-list">
-            <!-- Root comments -->
-            <li class="comment">
-                <div class="comment-user">
-                    <img src="/assets/profile-picture.png" alt="User Avatar" class="comment-avatar">
-                    <span class="comment-username">User1</span>
-                </div>
-                <div class="comment-content">
-                    <p>This is a top-level comment.</p>
-                    <div class="comment-actions">
-                        <span class="reply-button">Reply</span>
-                    </div>
-                </div>
-
-                <!-- Nested comments -->
-                <ul class="comment-list">
-                    <li class="comment">
-                        <div class="comment-user">
-                            <img src="/assets/profile-picture.png" alt="User Avatar" class="comment-avatar">
-                            <span class="comment-username">User2</span>
-                        </div>
-                        <div class="comment-content">
-                            <p>This is a nested comment.</p>
-                            <div class="comment-actions">
-                                <span class="reply-button">Reply</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- Add more comments here as needed -->
-        </ul>
+<!-- Comments -->
+<div id="react-comments"></div>
 @endsection
