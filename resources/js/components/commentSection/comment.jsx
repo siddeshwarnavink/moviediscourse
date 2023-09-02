@@ -13,14 +13,28 @@ function Comment(props) {
                 <p>{props.commentText}</p>
                 {window.USER ? (
                     <div className='comment-actions'>
-                        <button className='btn reply-button'>Reply</button>
+                        <button
+                            className='btn reply-button'
+                            onClick={() => props.addReply(props.commentId)}
+                        >
+                            Reply
+                        </button>
                         {props.userId === window.USER.id ? (
-                            <button
-                                className='btn reply-button'
-                                onClick={() => props.setEditing(props.commentId)}
-                            >
-                                Edit
-                            </button>
+                            <>
+                                <button
+                                    className='btn reply-button'
+                                    onClick={() => props.setEditing(props.commentId)}
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    className='btn reply-button text-danger'
+                                    onClick={() => props.deleteComment(props.commentId)}
+                                >
+                                    Delete
+                                </button>
+                            </>
                         ) : null}
                     </div>
                 ) : null}
@@ -49,6 +63,8 @@ function Comment(props) {
                                 userId={comment.user.id}
                                 updateComment={props.updateComment}
                                 setEditing={props.setEditing}
+                                addReply={props.addReply}
+                                deleteComment={props.deleteComment}
                             />
                         );
                     })}
