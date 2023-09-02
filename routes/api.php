@@ -16,10 +16,10 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::middleware(['web'])->group(function () {
-    Route::get('/movie/{postId}/comments', [CommentController::class, 'getComments'])->name('api.getComments');
-    Route::post('/movie/{postId}/comments', [CommentController::class, 'postComments'])->name('api.postComments');
-    Route::delete('/movie/{postId}/comments/{commentId}', [CommentController::class, 'deleteComments'])->name('api.deleteComments');
-    Route::patch('/movie/{postId}/comments/{commentId}', [CommentController::class, 'updateComments'])->name('api.updateComments');
+    Route::get('/movies/{postId}/comments', [CommentController::class, 'getComments'])->name('api.getComments');
+    Route::post('/movies/{postId}/comments', [CommentController::class, 'postComments'])->name('api.postComments');
+    Route::delete('/movies/{postId}/comments/{commentId}', [CommentController::class, 'deleteComments'])->name('api.deleteComments');
+    Route::patch('/movies/{postId}/comments/{commentId}', [CommentController::class, 'updateComments'])->name('api.updateComments');
 });
 
 

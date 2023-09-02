@@ -14,7 +14,7 @@ function CommentSection() {
     }, []);
 
     const fetchComments = async () => {
-        const response = await axios.get(`/api/movie/${window.MOVIE.id}/comments`);
+        const response = await axios.get(`/api/movies/${window.MOVIE.id}/comments`);
         setLoading(false);
         if(response.status === 200) {
             setComments(response.data);
@@ -22,7 +22,7 @@ function CommentSection() {
     }
 
     const updateComment = (id, newCommentText) => {
-        axios.patch(`/api/movie/${window.MOVIE.id}/comments/${id}`, {
+        axios.patch(`/api/movies/${window.MOVIE.id}/comments/${id}`, {
             commentText: newCommentText
         });
         const updateRecursive = (comments) => {
@@ -51,6 +51,10 @@ function CommentSection() {
         const setRecursive = (comments) => {
             return comments.map(comment => {
                 if (comment.id === id) {
+                    if (!updateEditing && comment.commentText.trim() === '') {
+                        deleteComment(id);
+                        return null;
+                    }
                     return {
                         ...comment,
                         editing: updateEditing
@@ -63,15 +67,15 @@ function CommentSection() {
                     };
                 }
                 return comment;
-            });
+            }).filter(Boolean);
         };
-
+    
         const newComments = setRecursive(comments);
         setComments(newComments);
-    };
+    };    
 
     const addReply = async (parentId) => {
-        const response = await axios.post(`/api/movie/${window.MOVIE.id}/comments?parentId=${parentId}`, {
+        const response = await axios.post(`/api/movies/${window.MOVIE.id}/comments?parentId=${parentId}`, {
             commentText: null
         });
         const newReply = {
@@ -104,7 +108,7 @@ function CommentSection() {
     };
 
     const deleteComment = (id) => {
-        axios.delete(`/api/movie/${window.MOVIE.id}/comments/${id}`);
+        axios.delete(`/api/movies/${window.MOVIE.id}/comments/${id}`);
         const deleteRecursive = (comments) => {
             return comments.filter(comment => {
                 if (comment.id === id) {
@@ -123,7 +127,7 @@ function CommentSection() {
 
     const handleCreate = async () => {
         if (editText.trim() !== '') {
-            const response = await axios.post(`/api/movie/${window.MOVIE.id}/comments`, {
+            const response = await axios.post(`/api/movies/${window.MOVIE.id}/comments`, {
                 commentText: editText
             });
             const newReply = {
