@@ -24,6 +24,7 @@
                     @endif
                 </div>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <input type="hidden" name="previous" value="{{ url()->previous() }}" />
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                 <a class="btn btn-link btn-block" href="{{ route('auth.createaccount.view') }}">Create account instead</a>
             </form>

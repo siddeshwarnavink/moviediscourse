@@ -23,11 +23,7 @@ class LoginController extends Controller
         }
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
         Auth::login($user);
-        return $this->authenticated($request, $user);
-    }
-
-    protected function authenticated(Request $request, $user) 
-    {
-        return redirect()->intended();
+        $previous = $request->input('previous');
+        return $previous ? redirect()->to($previous) : redirect()->intended(route('home'));
     }
 }
