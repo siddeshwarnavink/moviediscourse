@@ -14,16 +14,15 @@ function CommentSection() {
     }, []);
 
     const fetchComments = async () => {
-        const response = await fetch(`/api/posts/${window.MOVIE.id}/comments`);
+        const response = await axios.get(`/api/posts/${window.MOVIE.id}/comments`);
         setLoading(false);
-        if (response.status === 200) {
-            const data = await response.json();
-            setComments(data);
+        if(response.status === 200) {
+            setComments(response.data);
         }
     }
 
-    const updateComment = async (id, newCommentText) => {
-        await axios.patch(`/api/posts/${window.MOVIE.id}/comments/${id}`, {
+    const updateComment = (id, newCommentText) => {
+        axios.patch(`/api/posts/${window.MOVIE.id}/comments/${id}`, {
             commentText: newCommentText
         });
         const updateRecursive = (comments) => {
@@ -71,15 +70,17 @@ function CommentSection() {
         setComments(newComments);
     };
 
-    const addReply = (parentId) => {
+    const addReply = async (parentId) => {
+        const response = await axios.post(`/api/posts/${window.MOVIE.id}/comments?parentId=${parentId}`, {
+            commentText: ''
+        });
         const newReply = {
-            id: Date.now(),
+            id: response.data.id,
             editing: true,
             user: { id: window.USER.id, name: window.USER.name },
             commentText: '',
             comments: []
         };
-
         const addRecursive = (comments) => {
             return comments.map(comment => {
                 if (comment.id === parentId) {
@@ -121,6 +122,9 @@ function CommentSection() {
 
     const handleCreate = () => {
         if (editText.trim() !== '') {
+            axios.post(`/api/posts/${window.MOVIE.id}/comments`, {
+                commentText: editText
+            });
             const newReply = {
                 id: Date.now(),
                 editing: false,

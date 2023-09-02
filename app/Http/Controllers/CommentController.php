@@ -53,6 +53,20 @@ class CommentController extends Controller
         }
     }
 
+    public function postComments(CommentRequest $request, $movieId) {
+        if(Movie::where('id', $movieId)->exists()) {
+            $comment = Comment::create([
+                'commentText' => $request->commentText,
+                'parent' => $request->get('parentId', null),
+                'creator' => auth()->id(),
+                'movie' => $movieId
+            ]);
+            return response()->json($this->getNestedComments($comment));
+        } else {
+            return response()->json(['message' => 'Movie not found'], 404);
+        }
+    }
+
     public function updateComments(CommentRequest $request, $movieId, $commentId) {
         if(Comment::where('id', $commentId)->exists()) {
             Comment::where('id', $commentId)->update([
