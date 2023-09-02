@@ -3,6 +3,9 @@
 @section('title') Home @endsection
 @section('head')
 <style>
+    .title {
+        font-size: 1.7em;
+    }
     a.movie-link {
         text-decoration:none;
         color: black;
@@ -29,7 +32,7 @@
 </style>
 @endsection
 @section('content')
-    <h2 class="py-3">Top movies</h2>
+    <h2 class="title pt-3 pb-1">Top movies</h2>
     <div class="row">
         @foreach ($movies as $item)
             <div class="col-lg-3 col-md-4 col-sm-6">

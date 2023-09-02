@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\CreateAccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MovieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ Route::get('/', function() {
 });
 
 Route::get('/home.php', [HomeController::class, 'view'])->name('home');
+Route::get('/movie/{movieid}', [MovieController::class, 'view'])->name('movie');
 Route::get('/auth/create-account.php', [CreateAccountController::class, 'view'])->name('auth.createaccount.view');
 Route::post('/auth/create-account.php', [CreateAccountController::class, 'action'])->name('auth.createaccount.action');
 Route::get('/auth/login.php', [LoginController::class, 'view'])->name('auth.login.view');
