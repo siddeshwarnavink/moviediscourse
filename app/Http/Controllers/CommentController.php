@@ -84,11 +84,20 @@ class CommentController extends Controller
     }
 
     public function deleteComments(Request $request, $movieId, $commentId) {
-        if(Comment::where('id', $commentId)->exists()) {
-            Comment::find($commentId)->delete();
-            return response()->json(['message' => 'Comment deleted'], 204);
+        $comment = Comment::find($commentId);
+        if ($comment) {
+            $this->deleteCommentAndChildren($comment);
+            return response()->json(['message' => 'Comment and its children deleted'], 204);
         } else {
             return response()->json(['message' => 'Comment not found'], 404);
         }
+    }
+    
+    private function deleteCommentAndChildren($comment) {
+        $children = Comment::where('parent', $comment->id)->get();
+        foreach ($children as $child) {
+            $this->deleteCommentAndChildren($child); // recursive call
+        }
+        $comment->delete();
     }
 }
