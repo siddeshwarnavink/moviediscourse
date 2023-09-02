@@ -14,8 +14,9 @@ class CommentController extends Controller
 
     private function getNestedComments($parentComment) {
         $nestedComments = [];
-    
-        foreach ($parentComment->childComments as $comment) {
+        $sortedChildComments = $parentComment->childComments->sortByDesc('created_at');
+        
+        foreach ($sortedChildComments as $comment) {
             array_push($nestedComments, [
                 'id' => $comment->id,
                 'user' => $comment->creator()->select(['id', 'name'])->first(),
@@ -23,7 +24,7 @@ class CommentController extends Controller
                 'comments' => $this->getNestedComments($comment)
             ]);
         }
-    
+        
         return $nestedComments;
     }
 
@@ -33,7 +34,10 @@ class CommentController extends Controller
 
             $fetchedComments = Comment::where('movie', $movieId)
                 ->whereNull('parent')
-                ->with('childComments', 'creator')
+                ->with(['childComments' => function($query) {
+                    $query->orderBy('created_at', 'desc');
+                }, 'creator'])
+                ->orderBy('created_at', 'desc')
                 ->get();
             foreach ($fetchedComments as $parentComment) {
                 array_push($comments, [
