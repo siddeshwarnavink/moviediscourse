@@ -14,7 +14,7 @@
     @endauth
 </script>
 @viteReactRefresh
-@vite('resources/js/components/commentSection/index.jsx')
+@vite('resources/js/app.js')
 <style>
     .movie-title {
         font-size: 1.7em;
