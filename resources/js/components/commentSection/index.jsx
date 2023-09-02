@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import Comment from './comment';
+import CommentEditor from './commentEditor';
 
 function CommentSection() {
     const [editText, setEditText] = useState('');
@@ -164,6 +165,17 @@ function CommentSection() {
             </div>
             <ul className='comment-list'>
                 {comments.map(comment => {
+                    if (comment.editing) {
+                        return (
+                            <CommentEditor
+                                key={comment.id}
+                                commentId={comment.id}
+                                updateComment={updateComment}
+                                commentText={comment.commentText}
+                                setEditing={setEditing}
+                            />
+                        )
+                    }
                     return (
                         <Comment
                             key={comment.id}
