@@ -36,7 +36,7 @@
     <div class="row">
         @foreach ($movies as $item)
             <div class="col-lg-3 col-md-4 col-sm-6">
-                <a href="/movie/{{ $item->id }}" class="movie-link">
+                <a href="{{ route('movie',$item->id)}}" class="movie-link">
                     <div class="movie-card">
                         <img src="{{ $item->thumbnail }}" alt="Movie Poster">
                         <div class="movie-title">{{ $item->name }}</div>

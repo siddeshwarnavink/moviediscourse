@@ -7,8 +7,12 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
-    public function view()
+    public function view(Request $request, $id)
     {
-        return view('movie', []);
+        $movie = Movie::where('id', $id)->first();
+        if(!$movie) {
+            abort(404);
+        }
+        return view('movie', ['movie' => $movie]);
     }
 }

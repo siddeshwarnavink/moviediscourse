@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title') Movie detail @endsection
+@section('title') {{ $movie->name }} @endsection
 @section('head')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <style>
@@ -110,23 +110,23 @@
 <div class="row mt-3">
     <!-- Title -->
     <div class="col-md-8">
-        <h1 class="movie-title">Movie Name</h1>
+        <h1 class="movie-title">{{ $movie->name }}</h1>
         <p class="release-rating">
-            <span>Release Date: January 1, 2023</span>
-            <span class="ml-3">Age Rating: PG-13</span>
+            <span>Release: {{ $movie->release_date }}</span>
+            <span class="ml-3">Age Rating: {{ $movie->age_rating }}</span>
         </p>
     </div>
     <div class="col-md-4 text-center star-rating">
         <i class="fa fa-star"></i>
-        <p class="mb-0 ml-2">4.5</p>
+        <p class="mb-0 ml-2">{{ $movie->rating }}</p>
     </div>
     <!-- Thumbnail/Trailer -->
     <div class="row">
         <div class="col-3 thumbnail">
-            <img src="https://picfiles.alphacoders.com/101/101684.jpg" alt="Movie Thumbnail" class="img-fluid">
+            <img src="{{ $movie->thumbnail }}" alt="Movie Thumbnail" class="img-fluid">
         </div>
         <div class="col-5 trailer">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zSWdZVtXT7E?autoplay=1" frameborder="0" allowfullscreen></iframe>
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ $movie->youtube_trailer }}?autoplay=1" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="col-3 card moviedetails">
             <h5 class="card-title">Movie Details</h5>
@@ -141,18 +141,22 @@
                 </div>
             </div>
             <ul class="list-group mt-3">
-                <li class="list-group-item"><b>Director:</b> John Doe</li>
-                <li class="list-group-item"><b>Writer:</b> Jane Smith</li>
+                <li class="list-group-item"><b>Director:</b> {{ $movie->director }}</li>
+                <li class="list-group-item"><b>Writer:</b>  {{ $movie->writer }}</li>
             </ul>
         </div>
     </div>
     <!-- Description -->
     <div class="movie-tags mt-3 mb-1">
-        <span class="badge badge-secondary">Action</span>
-        <span class="badge badge-secondary">Adventure</span>
-        <span class="badge badge-secondary">Sci-Fi</span>
+        @php
+            $tags = explode(';', $movie->tags);
+        @endphp
+
+        @foreach ($tags as $tag)
+            <span class="badge badge-secondary">{{ $tag }}</span>
+        @endforeach
     </div>
-    <p class="description">When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.</p>
+    <p class="description">{{ $movie->short_description }}</p>
 
 </div>
 
