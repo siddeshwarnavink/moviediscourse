@@ -144,12 +144,12 @@
             <h5 class="card-title">Movie Details</h5>
             <div class="row">
                 <div class="col-2 icon-row">
-                    <i class="fa fa-heart"></i>
-                    <span>4.5</span>
+                    <i class="fa fa-star"></i>
+                    <span>{{ $movie->rating }}</span>
                 </div>
                 <div class="col-2 icon-row">
                     <i class="fa fa-comment"></i>
-                    <span>123</span>
+                    <span>{{ $movie->comments_count }}</span>
                 </div>
             </div>
             <ul class="list-group mt-3">

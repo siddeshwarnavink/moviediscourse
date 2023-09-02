@@ -9,7 +9,7 @@ class MovieController extends Controller
 {
     public function view(Request $request, $id)
     {
-        $movie = Movie::where('id', $id)->first();
+        $movie = Movie::withCount('comments')->where('id', $id)->first();
         if(!$movie) {
             abort(404);
         }
