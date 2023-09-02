@@ -116,6 +116,12 @@
         color: #007bff;
         cursor: pointer;
     }
+
+    .comment-username .you {
+        color: #777;
+        font-size: 12px;
+        margin-left: 5px;
+    }
 </style>
 @endsection
 @section('content')

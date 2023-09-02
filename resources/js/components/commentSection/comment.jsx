@@ -7,7 +7,12 @@ function Comment(props) {
         <li className='comment'>
             <div className='comment-user'>
                 <img src='/assets/profile-picture.png' alt='User Avatar' className='comment-avatar' />
-                <span className='comment-username'>{props.userName}</span>
+                <span className='comment-username'>
+                    {props.userName}
+                    {window.USER.id === props.userId ? (
+                        <span className='you'>(you)</span>
+                    ) : null}
+                </span>
             </div>
             <div className='comment-content'>
                 <p>{props.commentText}</p>
