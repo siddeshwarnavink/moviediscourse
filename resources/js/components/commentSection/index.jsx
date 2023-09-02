@@ -72,7 +72,7 @@ function CommentSection() {
 
     const addReply = async (parentId) => {
         const response = await axios.post(`/api/posts/${window.MOVIE.id}/comments?parentId=${parentId}`, {
-            commentText: ''
+            commentText: null
         });
         const newReply = {
             id: response.data.id,
@@ -120,13 +120,13 @@ function CommentSection() {
         setComments(newComments);
     };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (editText.trim() !== '') {
-            axios.post(`/api/posts/${window.MOVIE.id}/comments`, {
+            const response = await axios.post(`/api/posts/${window.MOVIE.id}/comments`, {
                 commentText: editText
             });
             const newReply = {
-                id: Date.now(),
+                id: response.data.id,
                 editing: false,
                 user: { id: window.USER.id, name: window.USER.name },
                 commentText: editText,

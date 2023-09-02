@@ -61,7 +61,12 @@ class CommentController extends Controller
                 'creator' => auth()->id(),
                 'movie' => $movieId
             ]);
-            return response()->json($this->getNestedComments($comment));
+            return response()->json([
+                'id' => $comment->id,
+                'user' => $comment->creator()->select(['id', 'name'])->first(),
+                'commentText' => $comment->commentText,
+                'comments' => $this->getNestedComments($comment)
+            ]);
         } else {
             return response()->json(['message' => 'Movie not found'], 404);
         }

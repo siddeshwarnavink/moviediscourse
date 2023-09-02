@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CommentRequest extends FormRequest
 {
@@ -15,7 +16,7 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'commentText' => 'required|string|max:500',
+            'commentText' => 'nullable|string|max:500',
         ];
     }
 }
