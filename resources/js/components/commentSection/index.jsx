@@ -16,7 +16,7 @@ function CommentSection() {
     const fetchComments = async () => {
         const response = await axios.get(`/api/movies/${window.MOVIE.id}/comments`);
         setLoading(false);
-        if(response.status === 200) {
+        if (response.status === 200) {
             setComments(response.data);
         }
     }
@@ -69,10 +69,10 @@ function CommentSection() {
                 return comment;
             }).filter(Boolean);
         };
-    
+
         const newComments = setRecursive(comments);
         setComments(newComments);
-    };    
+    };
 
     const addReply = async (parentId) => {
         const response = await axios.post(`/api/movies/${window.MOVIE.id}/comments?parentId=${parentId}`, {
@@ -179,35 +179,37 @@ function CommentSection() {
                     </button>
                 </div>
             ) : null}
-            <ul className='comment-list'>
-                {comments.map(comment => {
-                    if (comment.editing) {
+            {comments.length > 0 ? (
+                <ul className='comment-list'>
+                    {comments.map(comment => {
+                        if (comment.editing) {
+                            return (
+                                <CommentEditor
+                                    key={comment.id}
+                                    commentId={comment.id}
+                                    updateComment={updateComment}
+                                    commentText={comment.commentText}
+                                    setEditing={setEditing}
+                                />
+                            );
+                        }
                         return (
-                            <CommentEditor
+                            <Comment
                                 key={comment.id}
                                 commentId={comment.id}
-                                updateComment={updateComment}
                                 commentText={comment.commentText}
+                                userName={comment.user.name}
+                                userId={comment.user.id}
+                                comments={comment.comments}
+                                updateComment={updateComment}
                                 setEditing={setEditing}
+                                addReply={addReply}
+                                deleteComment={deleteComment}
                             />
-                        )
-                    }
-                    return (
-                        <Comment
-                            key={comment.id}
-                            commentId={comment.id}
-                            commentText={comment.commentText}
-                            userName={comment.user.name}
-                            userId={comment.user.id}
-                            comments={comment.comments}
-                            updateComment={updateComment}
-                            setEditing={setEditing}
-                            addReply={addReply}
-                            deleteComment={deleteComment}
-                        />
-                    );
-                })}
-            </ul>
+                        );
+                    })}
+                </ul>
+            ) : <p>Be the first to post a comment!</p>}
         </div>
     );
 }
