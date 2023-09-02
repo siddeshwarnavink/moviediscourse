@@ -1,33 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import Comment from './comment';
 import CommentEditor from './commentEditor';
 
 function CommentSection() {
+    const [loading, setLoading] = useState(true);
     const [editText, setEditText] = useState('');
-    const [comments, setComments] = useState([
-        {
-            id: 2342023232132,
-            user: { id: '652023232132', name: 'John doe' },
-            commentText: 'This is good',
-            comments: [
-                {
-                    id: 2023232132,
-                    editing: false,
-                    user: { id: '1', name: 'Sid' },
-                    commentText: 'Yeah!!',
-                    comments: []
-                },
-                {
-                    id: 3652023232132,
-                    user: { id: '652023232132', name: 'John doe' },
-                    commentText: 'I too think the same',
-                    comments: []
-                }
-            ]
+    const [comments, setComments] = useState([]);
+    useEffect(() => {
+        fetchComments();
+    }, []);
+
+    const fetchComments = async () => {
+        const response = await fetch(`/api/posts/${window.MOVIE.id}/comments`);
+        setLoading(false);
+        if (response.status === 200) {
+            const data = await response.json();
+            setComments(data);
         }
-    ]);
+    }
 
     const updateComment = (id, newCommentText) => {
         const updateRecursive = (comments) => {
@@ -141,28 +133,40 @@ function CommentSection() {
         }
     }
 
+    if (loading) {
+        return (
+            <div className='d-flex justify-content-center'>
+                <div className='spinner-border' role='status'>
+                    <span className='sr-only'>Loading...</span>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div>
             <h5 className='my-2'>Reviews</h5>
-            <div className='mb-4'>
-                <div className='form-group'>
-                    <textarea
-                        name='commentText'
-                        className='form-control'
-                        rows={3}
-                        placeholder='Post your comment'
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                    ></textarea>
+            {window.USER ? (
+                <div className='mb-4'>
+                    <div className='form-group'>
+                        <textarea
+                            name='commentText'
+                            className='form-control'
+                            rows={3}
+                            placeholder='Post your comment'
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                        ></textarea>
+                    </div>
+                    <button
+                        className='btn btn-primary'
+                        onClick={handleCreate}
+                        type='button'
+                    >
+                        Post
+                    </button>
                 </div>
-                <button
-                    className='btn btn-primary'
-                    onClick={handleCreate}
-                    type='button'
-                >
-                    Post
-                </button>
-            </div>
+            ) : null}
             <ul className='comment-list'>
                 {comments.map(comment => {
                     if (comment.editing) {

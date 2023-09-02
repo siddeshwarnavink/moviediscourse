@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('commentText');
             $table->unsignedBigInteger('parent')->nullable();
             $table->unsignedBigInteger('creator');
+            $table->unsignedBigInteger('movie');
             $table->timestamps();
 
             $table->foreign('parent')
@@ -27,6 +28,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade'); 
+
+            $table->foreign('movie')
+                ->references('id')
+                ->on('movies')
+                ->onDelete('cascade');
         });
     }
 

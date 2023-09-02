@@ -9,7 +9,7 @@
     window.USER=null;
     @endguest
     @auth
-    window.USER={id:"{{ Auth::user()->id }}", name:"{{ Auth::user()->name }}"};
+    window.USER={id:{{ Auth::user()->id }}, name:"{{ Auth::user()->name }}"};
     @endauth
 </script>
 @viteReactRefresh
