@@ -82,4 +82,13 @@ class CommentController extends Controller
             return response()->json(['message' => 'Comment not found'], 404);
         }
     }
+
+    public function deleteComments(Request $request, $movieId, $commentId) {
+        if(Comment::where('id', $commentId)->exists()) {
+            Comment::find($commentId)->delete();
+            return response()->json(['message' => 'Comment deleted'], 204);
+        } else {
+            return response()->json(['message' => 'Comment not found'], 404);
+        }
+    }
 }
