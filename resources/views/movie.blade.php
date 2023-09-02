@@ -146,20 +146,17 @@
             </ul>
         </div>
     </div>
-    <!-- Description -->
-    <div class="movie-tags mt-3 mb-1">
-        @php
-            $tags = explode(';', $movie->tags);
-        @endphp
-
-        @foreach ($tags as $tag)
-            <span class="badge badge-secondary">{{ $tag }}</span>
-        @endforeach
-    </div>
-    <p class="description">{{ $movie->short_description }}</p>
-
 </div>
-
+<!-- Description -->
+<div class="movie-tags mt-3 mb-1">
+    @php
+        $tags = explode(';', $movie->tags);
+    @endphp
+    @foreach ($tags as $tag)
+        <span class="badge badge-secondary">{{ $tag }}</span>
+    @endforeach
+</div>
+<p class="description">{{ $movie->short_description }}</p>
     <!-- Comments -->
     <h5 class="my-2">Reviews</h5>
     <ul class="comment-list">
