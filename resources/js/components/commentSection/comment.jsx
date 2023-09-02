@@ -9,7 +9,7 @@ function Comment(props) {
                 <img src='/assets/profile-picture.png' alt='User Avatar' className='comment-avatar' />
                 <span className='comment-username'>
                     {props.userName}
-                    {window.USER.id === props.userId ? (
+                    {window.USER && window.USER.id === props.userId ? (
                         <span className='you'>(you)</span>
                     ) : null}
                 </span>
