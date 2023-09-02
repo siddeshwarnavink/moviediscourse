@@ -31,27 +31,18 @@
 @section('content')
     <h2 class="py-3">Top movies</h2>
     <div class="row">
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="movie-details.html" class="movie-link">
-                <div class="movie-card">
-                    <img src="https://placehold.co/300x450" alt="Movie Poster">
-                    <div class="movie-title">Movie Title 1</div>
-                    <div class="star-rating">
-                        ★ 4.2
+        @foreach ($movies as $item)
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <a href="/movie/{{ $item->id }}" class="movie-link">
+                    <div class="movie-card">
+                        <img src="{{ $item->thumbnail }}" alt="Movie Poster">
+                        <div class="movie-title">{{ $item->name }}</div>
+                        <div class="star-rating">
+                            ★ {{ $item->rating }}
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="movie-details.html" class="movie-link">
-                <div class="movie-card">
-                    <img src="https://placehold.co/300x450" alt="Movie Poster">
-                    <div class="movie-title">Movie Title 1</div>
-                    <div class="star-rating">
-                        ★ 4.2
-                    </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+        @endforeach
     </div>
 @endsection

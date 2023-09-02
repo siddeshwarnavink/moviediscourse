@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\CreateAccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,11 +21,7 @@ Route::get('/', function() {
     return redirect('/home.php');
 });
 
-Route::get('/home.php', function () {
-    return view('home');
-});
-
-
+Route::get('/home.php', [HomeController::class, 'view'])->name('home');
 Route::get('/auth/create-account.php', [CreateAccountController::class, 'view'])->name('auth.createaccount.view');
 Route::post('/auth/create-account.php', [CreateAccountController::class, 'action'])->name('auth.createaccount.action');
 Route::get('/auth/login.php', [LoginController::class, 'view'])->name('auth.login.view');
