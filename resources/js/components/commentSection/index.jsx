@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import Comment from './comment';
 
 function CommentSection() {
+    const [editText, setEditText] = useState('');
     const [comments, setComments] = useState([
         {
             id: 2342023232132,
@@ -117,14 +118,50 @@ function CommentSection() {
                 return true;
             });
         };
-    
+
         const newComments = deleteRecursive(comments);
         setComments(newComments);
-    };    
+    };
+
+    const handleCreate = () => {
+        if (editText.trim() !== '') {
+            const newReply = {
+                id: Date.now(),
+                editing: false,
+                user: { id: window.USER.id, name: window.USER.name },
+                commentText: editText,
+                comments: []
+            };
+            setComments(prevComments => {
+                const updatedComments = [newReply, ...prevComments];
+                return updatedComments;
+            })
+            setEditText('');
+        }
+    }
 
     return (
         <div>
             <h5 className='my-2'>Reviews</h5>
+            <div className='mb-4'>
+                <div className='form-group'>
+                    <textarea
+                        name='commentText'
+                        className='form-control'
+                        rows={3}
+                        placeholder='Post your comment'
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                    ></textarea>
+                </div>
+                <button
+                    className='btn btn-primary'
+                    onClick={handleCreate}
+                    type='button'
+                >
+                    Post
+                </button>
+            </div>
             <ul className='comment-list'>
                 {comments.map(comment => {
                     return (
