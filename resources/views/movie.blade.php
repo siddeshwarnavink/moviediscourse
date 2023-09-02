@@ -3,6 +3,15 @@
 @section('title') {{ $movie->name }} @endsection
 @section('head')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<script> 
+    window.MOVIE={id:"{{ $movie->id }}", name:"{{ $movie->name }}"};
+    @guest
+    window.USER=null;
+    @endguest
+    @auth
+    window.USER={id:"{{ Auth::user()->id }}", name:"{{ Auth::user()->name }}"};
+    @endauth
+</script>
 @viteReactRefresh
 @vite('resources/js/components/commentSection/index.jsx')
 <style>
