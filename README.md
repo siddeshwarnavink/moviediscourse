@@ -1,4 +1,4 @@
-# live-queue-app
+# moviediscourse
 Dive deep into discussions, discover perspectives, and share your movie magic moments
 
 ![Project cover](cover.png)
