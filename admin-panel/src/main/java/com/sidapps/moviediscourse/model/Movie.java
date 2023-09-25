@@ -1,4 +1,4 @@
-package com.sidapps.moviediscourse;
+package com.sidapps.moviediscourse.model;
 
 public class Movie {
     private int id;

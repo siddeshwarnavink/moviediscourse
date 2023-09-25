@@ -3,6 +3,8 @@ package com.sidapps.moviediscourse;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import com.sidapps.moviediscourse.model.Movie;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

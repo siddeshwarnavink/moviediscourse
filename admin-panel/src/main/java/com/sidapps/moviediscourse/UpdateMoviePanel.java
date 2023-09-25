@@ -2,10 +2,12 @@ package com.sidapps.moviediscourse;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import com.sidapps.moviediscourse.dao.MovieDAO;
+import com.sidapps.moviediscourse.model.Movie;
 
 public class UpdateMoviePanel extends JPanel {
     private final JTextField nameField;
