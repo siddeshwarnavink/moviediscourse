@@ -35,7 +35,7 @@ public class Main {
             movieList.setCellRenderer(new MovieListRenderer());
 
             // Editor Panel
-            EditorPanel editorPanel = new EditorPanel();
+            UpdateMoviePanel editorPanel = new UpdateMoviePanel();
 
             // Main Panel
             JPanel mainPanel = new JPanel(new BorderLayout());
@@ -46,7 +46,7 @@ public class Main {
 
             // Action Listeners
             createMovieItem.addActionListener(e -> {
-                MovieDialog movieDialog = new MovieDialog(frame);
+                CreateMovieDialog movieDialog = new CreateMovieDialog(frame);
                 movieDialog.setVisible(true);
                 Movie newMovie = movieDialog.getMovie();
                 if (newMovie != null) {

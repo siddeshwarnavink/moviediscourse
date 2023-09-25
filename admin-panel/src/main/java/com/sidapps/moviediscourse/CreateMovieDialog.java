@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MovieDialog extends JDialog {
+public class CreateMovieDialog extends JDialog {
     private JTextField nameField;
     private JTextField thumbnailField;
     private JTextField directorField;
@@ -24,7 +24,7 @@ public class MovieDialog extends JDialog {
     
     private Movie movie;
 
-    public MovieDialog(JFrame owner) {
+    public CreateMovieDialog(JFrame owner) {
         super(owner, "Create Movie", true);
         setLayout(new BorderLayout());
 

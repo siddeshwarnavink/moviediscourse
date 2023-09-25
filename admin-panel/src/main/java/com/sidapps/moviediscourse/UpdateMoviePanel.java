@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class EditorPanel extends JPanel {
+public class UpdateMoviePanel extends JPanel {
     private final JTextField nameField;
     private final JTextField thumbnailField;
     private final JTextField directorField;
@@ -25,7 +25,7 @@ public class EditorPanel extends JPanel {
     private Movie displayedMovie;
     private final MovieDAO movieDAO = new MovieDAO();
 
-    public EditorPanel() {
+    public UpdateMoviePanel() {
         setLayout(new BorderLayout());
 
         nameField = new JTextField();
