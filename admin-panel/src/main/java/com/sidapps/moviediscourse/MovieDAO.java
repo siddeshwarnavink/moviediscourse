@@ -23,9 +23,10 @@ public class MovieDAO {
         String sql = "INSERT INTO movies(name, thumbnail, director, writer, youtube_trailer, " +
                 "age_rating, release_date, tags, short_description, rating, created_at, updated_at) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+        
         try (Connection connection = connect();
-                PreparedStatement statement = connection.prepareStatement(sql)) {
-
+             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            
             statement.setString(1, movie.getName());
             statement.setString(2, movie.getThumbnail());
             statement.setString(3, movie.getDirector());
@@ -36,13 +37,25 @@ public class MovieDAO {
             statement.setString(8, movie.getTags());
             statement.setString(9, movie.getShortDescription());
             statement.setDouble(10, movie.getRating());
-
-            statement.executeUpdate();
-
+            
+            int affectedRows = statement.executeUpdate();
+            
+            if (affectedRows == 0) {
+                throw new SQLException("Creating movie failed, no rows affected.");
+            }
+            
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    movie.setId(id);
+                } else {
+                    throw new SQLException("Creating movie failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }    
 
     public void updateMovie(Movie movie) {
         String sql = "UPDATE movies SET name=?, thumbnail=?, director=?, writer=?, youtube_trailer=?, " +
