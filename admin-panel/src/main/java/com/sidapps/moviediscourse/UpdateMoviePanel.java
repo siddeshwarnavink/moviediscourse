@@ -10,7 +10,10 @@ import com.sidapps.moviediscourse.dao.MovieDAO;
 import com.sidapps.moviediscourse.model.Movie;
 
 public class UpdateMoviePanel extends JPanel {
-    private final JTextField nameField;
+    private static final long serialVersionUID = -6927749756936920137L;
+    
+    private DefaultListModel<Movie> listModel;
+	private final JTextField nameField;
     private final JTextField thumbnailField;
     private final JTextField directorField;
     private final JTextField writerField;
@@ -27,7 +30,9 @@ public class UpdateMoviePanel extends JPanel {
     private Movie displayedMovie;
     private final MovieDAO movieDAO = new MovieDAO();
 
-    public UpdateMoviePanel() {
+    public UpdateMoviePanel(DefaultListModel<Movie> listModel) {
+    	this.listModel = listModel;
+    	
         setLayout(new BorderLayout());
 
         nameField = new JTextField();
@@ -109,6 +114,7 @@ public class UpdateMoviePanel extends JPanel {
                     "Confirm Delete", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 movieDAO.deleteMovie(displayedMovie);
+                listModel.removeElement(displayedMovie); 
                 setMovie(null);
             }
         });

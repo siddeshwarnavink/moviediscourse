@@ -8,6 +8,8 @@ import com.sidapps.moviediscourse.dao.MovieDAO;
 import com.sidapps.moviediscourse.model.Movie;
 
 public class Main {
+	private static DefaultListModel<Movie> listModel;
+	
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Admin - Movie Discourse");
@@ -40,7 +42,7 @@ public class Main {
             movieList.setCellRenderer(new MovieListRenderer());
 
             // Editor Panel
-            UpdateMoviePanel editorPanel = new UpdateMoviePanel();
+            UpdateMoviePanel editorPanel = new UpdateMoviePanel(listModel);
 
             // Main Panel
             JPanel mainPanel = new JPanel(new BorderLayout());

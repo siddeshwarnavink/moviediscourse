@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CreateMovieDialog extends JDialog {
-    private JTextField nameField;
+    private static final long serialVersionUID = -2105262483778361251L;
+    
+	private JTextField nameField;
     private JTextField thumbnailField;
     private JTextField directorField;
     private JTextField writerField;
