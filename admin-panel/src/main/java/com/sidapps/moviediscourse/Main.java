@@ -21,12 +21,14 @@ public class Main {
             // Menu Bar
             JMenuBar menuBar = new JMenuBar();
             JMenu fileMenu = new JMenu("File");
+            JMenu movieMenu = new JMenu("Movie");
             JMenuItem createMovieItem = new JMenuItem("Create Movie");
             JMenuItem exitItem = new JMenuItem("Exit");
 
-            fileMenu.add(createMovieItem);
+            movieMenu.add(createMovieItem);
             fileMenu.add(exitItem);
             menuBar.add(fileMenu);
+            menuBar.add(movieMenu);
             frame.setJMenuBar(menuBar);
 
             // Movie List
@@ -65,7 +67,7 @@ public class Main {
                     Movie selectedMovie = movieList.getSelectedValue();
                     if (selectedMovie != null) {
                         editorPanel.setMovie(selectedMovie);
-                        editorPanel.setEditable(true); 
+                        editorPanel.setEditable(false); 
                     }
                 }
             });
@@ -76,7 +78,9 @@ public class Main {
 }
 
 class MovieListRenderer extends DefaultListCellRenderer {
-    @Override
+    private static final long serialVersionUID = 5927989692178771610L;
+
+	@Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         if (value instanceof Movie) {
             value = ((Movie) value).getName();
