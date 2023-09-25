@@ -125,10 +125,10 @@ public class EditorPanel extends JPanel {
         ratingField.setEditable(editable);
         shortDescriptionArea.setEditable(editable);
 
-        saveButton.setVisible(editable);
-        cancelButton.setVisible(editable);
-        updateButton.setVisible(!editable);
-        deleteButton.setVisible(!editable);
+        saveButton.setVisible(displayedMovie != null && editable);
+        cancelButton.setVisible(displayedMovie != null && editable);
+        updateButton.setVisible(displayedMovie != null && !editable);
+        deleteButton.setVisible(displayedMovie != null && !editable);
     }
 
     public void setMovie(Movie movie) {
