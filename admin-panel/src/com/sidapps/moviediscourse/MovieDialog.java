@@ -1,6 +1,8 @@
 package com.sidapps.moviediscourse;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +26,13 @@ public class MovieDialog extends JDialog {
 
     public MovieDialog(JFrame owner) {
         super(owner, "Create Movie", true);
-        setLayout(new GridLayout(0, 2));
+        setLayout(new BorderLayout());
+
+        JPanel fieldsPanel = new JPanel(new GridLayout(0, 2));
+        fieldsPanel.setBorder(new EmptyBorder(10, 10, 0, 10));
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
         
         // Initialize fields
         nameField = new JTextField(20);
@@ -42,18 +50,22 @@ public class MovieDialog extends JDialog {
         cancelButton = new JButton("Cancel");
 
         // Add labels and fields to dialog
-        add(new JLabel("Name:")); add(nameField);
-        add(new JLabel("Thumbnail:")); add(thumbnailField);
-        add(new JLabel("Director:")); add(directorField);
-        add(new JLabel("Writer:")); add(writerField);
-        add(new JLabel("Youtube Trailer:")); add(youtubeTrailerField);
-        add(new JLabel("Age Rating:")); add(ageRatingField);
-        add(new JLabel("Release Date:")); add(releaseDateField);
-        add(new JLabel("Tags:")); add(tagsField);
-        add(new JLabel("Short Description:")); add(new JScrollPane(shortDescriptionArea));
-        add(new JLabel("Rating:")); add(ratingField);
+        fieldsPanel.add(new JLabel("Name:")); fieldsPanel.add(nameField);
+        fieldsPanel.add(new JLabel("Thumbnail:")); fieldsPanel.add(thumbnailField);
+        fieldsPanel.add(new JLabel("Director:")); fieldsPanel.add(directorField);
+        fieldsPanel.add(new JLabel("Writer:")); fieldsPanel.add(writerField);
+        fieldsPanel.add(new JLabel("Youtube Trailer:")); fieldsPanel.add(youtubeTrailerField);
+        fieldsPanel.add(new JLabel("Age Rating:")); fieldsPanel.add(ageRatingField);
+        fieldsPanel.add(new JLabel("Release Date:")); fieldsPanel.add(releaseDateField);
+        fieldsPanel.add(new JLabel("Tags:")); fieldsPanel.add(tagsField);
+        fieldsPanel.add(new JLabel("Short Description:")); fieldsPanel.add(new JScrollPane(shortDescriptionArea));
+        fieldsPanel.add(new JLabel("Rating:")); fieldsPanel.add(ratingField);
         
-        add(okButton); add(cancelButton);
+        buttonsPanel.add(okButton);
+        buttonsPanel.add(cancelButton);
+
+        add(fieldsPanel, BorderLayout.CENTER);
+        add(buttonsPanel, BorderLayout.SOUTH);
 
         pack();
 
