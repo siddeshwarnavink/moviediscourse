@@ -2,8 +2,7 @@ package com.sidapps.moviediscourse;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +11,9 @@ public class Main {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(800, 600);
             frame.setLayout(new BorderLayout());
+
+            // Initialize MovieDAO
+            MovieDAO movieDAO = new MovieDAO();
 
             // Menu Bar
             JMenuBar menuBar = new JMenuBar();
@@ -24,35 +26,42 @@ public class Main {
             menuBar.add(fileMenu);
             frame.setJMenuBar(menuBar);
 
+            // Movie List
+            DefaultListModel<Movie> listModel = new DefaultListModel<>();
+            List<Movie> movies = movieDAO.getAllMovies();
+            movies.forEach(listModel::addElement);
+
+            JList<Movie> movieList = new JList<>(listModel);
+            movieList.setCellRenderer(new MovieListRenderer());
+
+            // Editor Panel
+            EditorPanel editorPanel = new EditorPanel();
+
+            // Main Panel
             JPanel mainPanel = new JPanel(new BorderLayout());
-
-            DefaultListModel<String> listModel = new DefaultListModel<>();
-            listModel.addElement("Movie 1");
-            listModel.addElement("Movie 2");
-            JList<String> movieList = new JList<>(listModel);
             mainPanel.add(new JScrollPane(movieList), BorderLayout.WEST);
-
-            JTextArea movieEditor = new JTextArea();
-            mainPanel.add(new JScrollPane(movieEditor), BorderLayout.CENTER);
+            mainPanel.add(editorPanel, BorderLayout.CENTER);
 
             frame.add(mainPanel, BorderLayout.CENTER);
 
+            // Action Listeners
             createMovieItem.addActionListener(e -> {
-                String newMovie = JOptionPane.showInputDialog(frame, "Enter new movie name:");
-                if (newMovie != null && !newMovie.trim().isEmpty()) {
+                MovieDialog movieDialog = new MovieDialog(frame);
+                movieDialog.setVisible(true);
+                Movie newMovie = movieDialog.getMovie();
+                if (newMovie != null) {
+                    movieDAO.createMovie(newMovie);
                     listModel.addElement(newMovie);
                 }
             });
 
-            exitItem.addActionListener(e -> {
-                frame.dispose();
-            });
+            exitItem.addActionListener(e -> frame.dispose());
 
             movieList.addListSelectionListener(e -> {
                 if (!e.getValueIsAdjusting()) {
-                    String selectedMovie = movieList.getSelectedValue();
+                    Movie selectedMovie = movieList.getSelectedValue();
                     if (selectedMovie != null) {
-                        movieEditor.setText(selectedMovie + " details...");
+                        editorPanel.setMovie(selectedMovie);
                     }
                 }
             });
