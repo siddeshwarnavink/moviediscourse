@@ -62,6 +62,7 @@ public class Main {
                     Movie selectedMovie = movieList.getSelectedValue();
                     if (selectedMovie != null) {
                         editorPanel.setMovie(selectedMovie);
+                        editorPanel.setEditable(true); 
                     }
                 }
             });

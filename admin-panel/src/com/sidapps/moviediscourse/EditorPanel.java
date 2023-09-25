@@ -2,6 +2,8 @@ package com.sidapps.moviediscourse;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EditorPanel extends JPanel {
     private final JTextField nameField;
@@ -14,11 +16,13 @@ public class EditorPanel extends JPanel {
     private final JTextField tagsField;
     private final JTextField ratingField;
     private final JTextArea shortDescriptionArea;
-    
+    private final JButton saveButton;
+    private Movie displayedMovie;
+    private final MovieDAO movieDAO = new MovieDAO();
+
     public EditorPanel() {
-        setLayout(new GridLayout(0, 2)); // Adjust layout manager as needed
-        
-        // Initialize the text fields and text area
+        setLayout(new GridLayout(0, 2));
+
         nameField = new JTextField();
         thumbnailField = new JTextField();
         directorField = new JTextField();
@@ -29,33 +33,69 @@ public class EditorPanel extends JPanel {
         tagsField = new JTextField();
         ratingField = new JTextField();
         shortDescriptionArea = new JTextArea();
-        
-        // Add labels and fields to the panel
-        add(new JLabel("Name:")); add(nameField);
-        add(new JLabel("Thumbnail:")); add(thumbnailField);
-        add(new JLabel("Director:")); add(directorField);
-        add(new JLabel("Writer:")); add(writerField);
-        add(new JLabel("Youtube Trailer:")); add(youtubeTrailerField);
-        add(new JLabel("Age Rating:")); add(ageRatingField);
-        add(new JLabel("Release Date:")); add(releaseDateField);
-        add(new JLabel("Tags:")); add(tagsField);
-        add(new JLabel("Rating:")); add(ratingField);
-        add(new JLabel("Short Description:")); add(new JScrollPane(shortDescriptionArea));
-        
-        // If you don't want to allow editing, set fields to non-editable
-        nameField.setEditable(false);
-        thumbnailField.setEditable(false);
-        directorField.setEditable(false);
-        writerField.setEditable(false);
-        youtubeTrailerField.setEditable(false);
-        ageRatingField.setEditable(false);
-        releaseDateField.setEditable(false);
-        tagsField.setEditable(false);
-        ratingField.setEditable(false);
-        shortDescriptionArea.setEditable(false);
+        saveButton = new JButton("Save");
+
+        add(new JLabel("Name:"));
+        add(nameField);
+        add(new JLabel("Thumbnail:"));
+        add(thumbnailField);
+        add(new JLabel("Director:"));
+        add(directorField);
+        add(new JLabel("Writer:"));
+        add(writerField);
+        add(new JLabel("Youtube Trailer:"));
+        add(youtubeTrailerField);
+        add(new JLabel("Age Rating:"));
+        add(ageRatingField);
+        add(new JLabel("Release Date:"));
+        add(releaseDateField);
+        add(new JLabel("Tags:"));
+        add(tagsField);
+        add(new JLabel("Rating:"));
+        add(ratingField);
+        add(new JLabel("Short Description:"));
+        add(new JScrollPane(shortDescriptionArea));
+        add(saveButton);
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (displayedMovie != null) {
+                    displayedMovie.setName(nameField.getText());
+                    displayedMovie.setThumbnail(thumbnailField.getText());
+                    displayedMovie.setDirector(directorField.getText());
+                    displayedMovie.setWriter(writerField.getText());
+                    displayedMovie.setYoutubeTrailer(youtubeTrailerField.getText());
+                    displayedMovie.setAgeRating(ageRatingField.getText());
+                    displayedMovie.setReleaseDate(releaseDateField.getText());
+                    displayedMovie.setTags(tagsField.getText());
+                    displayedMovie.setShortDescription(shortDescriptionArea.getText());
+                    displayedMovie.setRating(Double.parseDouble(ratingField.getText()));
+                    movieDAO.updateMovie(displayedMovie);
+                    setEditable(false);
+                }
+            }
+        });
+
+        setEditable(false);
     }
-    
+
+    public void setEditable(boolean editable) {
+        nameField.setEditable(editable);
+        thumbnailField.setEditable(editable);
+        directorField.setEditable(editable);
+        writerField.setEditable(editable);
+        youtubeTrailerField.setEditable(editable);
+        ageRatingField.setEditable(editable);
+        releaseDateField.setEditable(editable);
+        tagsField.setEditable(editable);
+        ratingField.setEditable(editable);
+        shortDescriptionArea.setEditable(editable);
+        saveButton.setVisible(editable);
+    }
+
     public void setMovie(Movie movie) {
+        displayedMovie = movie;
         if (movie != null) {
             nameField.setText(movie.getName());
             thumbnailField.setText(movie.getThumbnail());
