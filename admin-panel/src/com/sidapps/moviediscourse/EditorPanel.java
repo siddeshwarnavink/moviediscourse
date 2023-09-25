@@ -1,6 +1,8 @@
 package com.sidapps.moviediscourse;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,11 +19,14 @@ public class EditorPanel extends JPanel {
     private final JTextField ratingField;
     private final JTextArea shortDescriptionArea;
     private final JButton saveButton;
+    private final JButton updateButton;
+    private final JButton deleteButton;
+    private final JButton cancelButton;
     private Movie displayedMovie;
     private final MovieDAO movieDAO = new MovieDAO();
 
     public EditorPanel() {
-        setLayout(new GridLayout(0, 2));
+        setLayout(new BorderLayout());
 
         nameField = new JTextField();
         thumbnailField = new JTextField();
@@ -34,28 +39,43 @@ public class EditorPanel extends JPanel {
         ratingField = new JTextField();
         shortDescriptionArea = new JTextArea();
         saveButton = new JButton("Save");
+        updateButton = new JButton("Update");
+        deleteButton = new JButton("Delete");
+        cancelButton = new JButton("Cancel");
 
-        add(new JLabel("Name:"));
-        add(nameField);
-        add(new JLabel("Thumbnail:"));
-        add(thumbnailField);
-        add(new JLabel("Director:"));
-        add(directorField);
-        add(new JLabel("Writer:"));
-        add(writerField);
-        add(new JLabel("Youtube Trailer:"));
-        add(youtubeTrailerField);
-        add(new JLabel("Age Rating:"));
-        add(ageRatingField);
-        add(new JLabel("Release Date:"));
-        add(releaseDateField);
-        add(new JLabel("Tags:"));
-        add(tagsField);
-        add(new JLabel("Rating:"));
-        add(ratingField);
-        add(new JLabel("Short Description:"));
-        add(new JScrollPane(shortDescriptionArea));
-        add(saveButton);
+        JPanel fieldsPanel = new JPanel(new GridLayout(0, 2));
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.add(updateButton);
+        buttonsPanel.add(deleteButton);
+        buttonsPanel.add(saveButton);
+        buttonsPanel.add(cancelButton);
+
+        fieldsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        buttonsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        add(fieldsPanel, BorderLayout.CENTER);
+        add(buttonsPanel, BorderLayout.SOUTH);
+
+        fieldsPanel.add(new JLabel("Name:"));
+        fieldsPanel.add(nameField);
+        fieldsPanel.add(new JLabel("Thumbnail:"));
+        fieldsPanel.add(thumbnailField);
+        fieldsPanel.add(new JLabel("Director:"));
+        fieldsPanel.add(directorField);
+        fieldsPanel.add(new JLabel("Writer:"));
+        fieldsPanel.add(writerField);
+        fieldsPanel.add(new JLabel("Youtube Trailer:"));
+        fieldsPanel.add(youtubeTrailerField);
+        fieldsPanel.add(new JLabel("Age Rating:"));
+        fieldsPanel.add(ageRatingField);
+        fieldsPanel.add(new JLabel("Release Date:"));
+        fieldsPanel.add(releaseDateField);
+        fieldsPanel.add(new JLabel("Tags:"));
+        fieldsPanel.add(tagsField);
+        fieldsPanel.add(new JLabel("Rating:"));
+        fieldsPanel.add(ratingField);
+        fieldsPanel.add(new JLabel("Short Description:"));
+        fieldsPanel.add(new JScrollPane(shortDescriptionArea));
 
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -78,6 +98,19 @@ public class EditorPanel extends JPanel {
         });
 
         setEditable(false);
+
+        updateButton.addActionListener(e -> setEditable(true));
+        cancelButton.addActionListener(e -> setEditable(false));
+
+        deleteButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this movie?",
+                    "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                movieDAO.deleteMovie(displayedMovie);
+                setMovie(null);
+            }
+        });
+
     }
 
     public void setEditable(boolean editable) {
@@ -91,7 +124,11 @@ public class EditorPanel extends JPanel {
         tagsField.setEditable(editable);
         ratingField.setEditable(editable);
         shortDescriptionArea.setEditable(editable);
+
         saveButton.setVisible(editable);
+        cancelButton.setVisible(editable);
+        updateButton.setVisible(!editable);
+        deleteButton.setVisible(!editable);
     }
 
     public void setMovie(Movie movie) {

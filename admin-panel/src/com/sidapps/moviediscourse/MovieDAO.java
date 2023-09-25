@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 
-
 public class MovieDAO {
 
     private static final String URL = "jdbc:mysql://localhost:3306/moviediscourse";
@@ -102,5 +101,19 @@ public class MovieDAO {
         }
 
         return movies;
+    }
+
+    public void deleteMovie(Movie movie) {
+        String sql = "DELETE FROM movies WHERE id = ?";
+        try (Connection connection = connect();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, movie.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
