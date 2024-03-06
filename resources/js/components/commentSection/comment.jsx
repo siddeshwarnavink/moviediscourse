@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CommentEditor from './commentEditor';
+import { RATINGS } from '.';
 
 function Comment(props) {
     return (
@@ -15,6 +16,9 @@ function Comment(props) {
                 </span>
             </div>
             <div className='comment-content'>
+                {props.rating ? (
+                    <small className='text-muted'>Rated {RATINGS[props.rating]}</small>
+                ) : null}
                 <p>{props.commentText}</p>
                 {window.USER ? (
                     <div className='comment-actions'>

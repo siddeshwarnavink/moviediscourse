@@ -5,9 +5,12 @@ import axios from 'axios';
 import Comment from './comment';
 import CommentEditor from './commentEditor';
 
+export const RATINGS = ['Very Bad', 'Bad', 'Moderate', 'Good', 'Very Good']
+
 function CommentSection() {
     const [loading, setLoading] = useState(true);
     const [editText, setEditText] = useState('');
+    const [rating, setRating] = useState(3);
     const [comments, setComments] = useState([]);
     useEffect(() => {
         fetchComments();
@@ -128,7 +131,8 @@ function CommentSection() {
     const handleCreate = async () => {
         if (editText.trim() !== '') {
             const response = await axios.post(`/api/movies/${window.MOVIE.id}/comments`, {
-                commentText: editText
+                commentText: editText,
+                rating
             });
             const newReply = {
                 id: response.data.id,
@@ -170,6 +174,20 @@ function CommentSection() {
                             onChange={(e) => setEditText(e.target.value)}
                         ></textarea>
                     </div>
+                    <div className='form-group'>
+                        <label class="form-label">Rating</label>
+                        <select
+                            name='rating'
+                            className='form-control col-2'
+                            value={rating}
+                            onChange={event => setRating(parseInt(event.target.value))}>
+                            {RATINGS.map((ratingLabel, index) => (
+                                <option value={index + 1} key={ratingLabel}>
+                                    {ratingLabel}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                     <button
                         className='btn btn-primary'
                         onClick={handleCreate}
@@ -198,6 +216,7 @@ function CommentSection() {
                                 key={comment.id}
                                 commentId={comment.id}
                                 commentText={comment.commentText}
+                                rating={comment.rating}
                                 userName={comment.user.name}
                                 userId={comment.user.id}
                                 comments={comment.comments}

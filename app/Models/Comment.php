@@ -8,7 +8,7 @@ class Comment extends Model
 {
     protected $table = 'comments';
 
-    protected $fillable = ['commentText', 'creator', 'parent', 'movie'];
+    protected $fillable = ['commentText', 'creator', 'parent', 'movie', 'rating'];
 
     public function creator()
     {

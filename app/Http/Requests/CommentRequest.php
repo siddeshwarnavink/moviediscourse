@@ -17,6 +17,7 @@ class CommentRequest extends FormRequest
     {
         return [
             'commentText' => 'nullable|string|max:500',
+            'rating' => 'nullable|integer|min:1|max:5'
         ];
     }
 }
