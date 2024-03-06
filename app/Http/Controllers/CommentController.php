@@ -125,6 +125,20 @@ class CommentController extends Controller
         $comment = Comment::find($commentId);
         if ($comment) {
             $this->deleteCommentAndChildren($comment);
+
+            if(!$comment->parent) {
+                $cypher = '
+                    MATCH (comment:Comment {id: $commentId, rating: $rating})
+                    OPTIONAL MATCH (comment)-[r]-()
+                    DELETE comment, r
+                ';
+
+                $this->neo4jDriver->run($cypher, [
+                    'commentId' => $comment->id,
+                    'rating' => $comment->rating,
+                ]);
+            }
+
             return response()->json(['message' => 'Comment and its children deleted'], 204);
         } else {
             return response()->json(['message' => 'Comment not found'], 404);
@@ -135,7 +149,7 @@ class CommentController extends Controller
     {
         $children = Comment::where('parent', $comment->id)->get();
         foreach ($children as $child) {
-            $this->deleteCommentAndChildren($child); // recursive call
+            $this->deleteCommentAndChildren($child);
         }
         $comment->delete();
     }
