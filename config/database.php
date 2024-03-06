@@ -93,6 +93,15 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+
+        'neo4j' => [
+            'driver' => 'neo4j',
+            'host' => env('NEO4J_HOST'),
+            'port' => env('NEO4J_PORT'),
+            'username' => env('NEO4J_USERNAME'),
+            'password' => env('NEO4J_PASSWORD'),
+        ],
+
     ],
 
     /*

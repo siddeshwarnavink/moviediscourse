@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Neo4j\Driver;
 use App\Models\Movie;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+
+    protected $neo4jDriver;
+
+    public function __construct(Driver $neo4jDriver)
+    {
+        $this->neo4jDriver = $neo4jDriver;
+    }
 
     private function getNestedComments($parentComment)
     {
@@ -68,6 +77,25 @@ class CommentController extends Controller
                 'movie' => $movieId,
                 'rating' => $request->rating
             ]);
+
+            if (!$request->get('parentId', null)) {
+                $cypher = '
+                    MERGE (m:Movie {id: $movieId})
+                    MERGE (u:User {id: $userId})
+                    CREATE (comment:Comment {id: $commentId, rating: $rating})
+                    MERGE (comment)-[:COMMENTED_ON]->(m)
+                    MERGE (comment)-[:CREATED_BY]->(u)
+                    RETURN comment
+                ';
+
+                $this->neo4jDriver->run($cypher, [
+                    'commentId' => $comment->id,
+                    'rating' => $request->rating,
+                    'movieId' => $movieId,
+                    'userId' => Auth::user()->id,
+                ]);
+            }
+
             return response()->json([
                 'id' => $comment->id,
                 'user' => $comment->creator()->select(['id', 'name'])->first(),
