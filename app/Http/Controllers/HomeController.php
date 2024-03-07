@@ -25,14 +25,15 @@ class HomeController extends Controller
 
         if (Auth::user()) {
             $cypher = '
-                MATCH (u1:User {id: $userId})<-[:CREATED_BY]-(c:Comment)-[:COMMENTED_ON]->(m1:Movie)
-                WHERE c.rating >= 3
+                MATCH (u1:User {id: $userId})<-[:CREATED_BY]-(c1:Comment)-[:COMMENTED_ON]->(m1:Movie)
+                WHERE c1.rating >= 3
                                 
                 MATCH (u2:User)<-[:CREATED_BY]-(:Comment)-[:COMMENTED_ON]->(m2:Movie)
                 WHERE (m1:Movie)<-[:COMMENTED_ON]-(:Comment)-[:CREATED_BY]->(u2) AND u2 <> u1
 
-                MATCH (u2:User)<-[:CREATED_BY]-(:Comment)-[:COMMENTED_ON]->(recommendedMovie:Movie)
+                MATCH (u2:User)<-[:CREATED_BY]-(c2:Comment)-[:COMMENTED_ON]->(recommendedMovie:Movie)
                 WHERE NOT (u1:User)<-[:CREATED_BY]-(:Comment)-[:COMMENTED_ON]->(recommendedMovie:Movie)
+                AND c2.rating >= 3
                 RETURN DISTINCT recommendedMovie
             ';
 
