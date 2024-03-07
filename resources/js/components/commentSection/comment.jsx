@@ -17,7 +17,7 @@ function Comment(props) {
             </div>
             <div className='comment-content'>
                 {props.rating ? (
-                    <small className='text-muted'>Rated {RATINGS[props.rating]}</small>
+                    <small className='text-muted'>Rated {RATINGS[props.rating-1]}</small>
                 ) : null}
                 <p>{props.commentText}</p>
                 {window.USER ? (
